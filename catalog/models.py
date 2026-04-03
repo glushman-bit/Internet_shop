@@ -8,10 +8,14 @@ class Product(models.Model):
     )
     description = models.TextField(
         verbose_name='Описание продукта',
-        help_text='Введите описание продукта'
+        help_text='Введите описание продукта',
+        blank=True,
+        null=True
     )
     image = models.ImageField(
         upload_to='products/photos',
+        blank=True,
+        null=True,
         verbose_name='Фото продукта',
         help_text='Загрузка фото продукта'
     )
@@ -50,7 +54,9 @@ class Category(models.Model):
     )
     description = models.TextField(
         verbose_name='Описание категории',
-        help_text='Введите описание категории'
+        help_text='Введите описание категории',
+        blank=True,
+        null=True
     )
 
     def __str__(self):
