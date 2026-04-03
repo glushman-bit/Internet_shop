@@ -32,11 +32,11 @@ class Product(models.Model):
     )
     created_at = models.DateField(
         auto_now_add=True,
-        verbose_name='Дата создания продукта'
+        verbose_name='Дата создания продукта',
     )
     updated_at = models.DateField(
         auto_now=True,
-        verbose_name='Дата изменения продукта'
+        verbose_name='Дата изменения продукта',
     )
 
     def __str__(self):
