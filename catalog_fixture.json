@@ -1,0 +1,78 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "HONOR",
+        "description": "Хорошее качество",
+        "image": "",
+        "category": 1,
+        "price": "45000.00",
+        "created_at": "2026-04-03T19:35:15.967Z",
+        "updated_at": "2026-04-03T19:35:15.967Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Nokia",
+        "description": "Connection people",
+        "image": "products/photos/nokia.webp",
+        "category": 2,
+        "price": "25000.00",
+        "created_at": "2026-04-03T19:37:33.968Z",
+        "updated_at": "2026-04-03T19:37:33.968Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Indezit",
+        "description": "Лучшее для дома",
+        "image": "",
+        "category": 3,
+        "price": "32000.00",
+        "created_at": "2026-04-03T19:39:54.125Z",
+        "updated_at": "2026-04-03T19:39:54.125Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "name": "Gefest",
+        "description": "Лучшее для дома",
+        "image": "",
+        "category": 3,
+        "price": "42000.00",
+        "created_at": "2026-04-03T20:07:59.862Z",
+        "updated_at": "2026-04-03T20:07:59.862Z"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Ноутбук",
+        "description": "Удобный рабочий инструмент"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Смартфон",
+        "description": "Всегда на связи"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Бытовая техника",
+        "description": "Техника для дома"
+    }
+}
+]
