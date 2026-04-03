@@ -30,11 +30,11 @@ class Product(models.Model):
         decimal_places=2,
         verbose_name='Цена продукта'
     )
-    created_at = models.DateTimeField(
+    created_at = models.DateField(
         auto_now_add=True,
         verbose_name='Дата создания продукта'
     )
-    updated_at = models.DateTimeField(
+    updated_at = models.DateField(
         auto_now=True,
         verbose_name='Дата изменения продукта'
     )
