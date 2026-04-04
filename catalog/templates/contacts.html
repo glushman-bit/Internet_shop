@@ -41,6 +41,34 @@
                     </table>
                 </div>
             </div>
+
+            <div class="card md-4 w-50 box-shodow">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-normal">Контакты</h5>
+                </div>
+<!--                <h3 class="my-1 font-weight-normal">Контакты</h3>-->
+                {% for contact in contacts %}
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <h5 class="my-1 font-weight-normal">{{ contact.name }}</h5>
+                        <tr>
+                            <td class="w-25">Адрес:</td>
+                            <td>{{ contact.address }}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Телефон:</td>
+                            <td>{{ contact.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Email:</td>
+                            <td>{{ contact.email }}</td>
+                        </tr>
+                    </table>
+                </div>
+                {% empty %}
+                    <p>Контакты не добавлены</p>
+                {% endfor %}
+            </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="card mb-4 box-shadow">
