@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from catalog.models import Product, Contact
+from catalog.models import Contact
+from catalog.models import Product
 
 
 def home(request):
@@ -12,7 +13,6 @@ def home(request):
     print("Последние 5 продуктов.")
     for product in latest_products:
         print(product.name)
-
 
     return render(request, "home.html", {"latest_products": latest_products})
 
@@ -33,11 +33,3 @@ def contacts(request):
         print(contact.name)
 
     return render(request, "contacts.html", {"contacts": contact_list})
-
-    # if request.method == "POST":
-    #     name = request.POST.get("name")
-    #     phone = request.POST.get("phone")
-    #     message = request.POST.get("message")
-    #     print(f"Имя : {name},\n" f"Телефон : {phone},\n" f"Сообщение : {message}")
-    #
-    #     return HttpResponse(f"Привет {name}, ваши данные приняты.")
