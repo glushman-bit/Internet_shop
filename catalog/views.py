@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from catalog.models import Contact
 from catalog.models import Product
@@ -7,15 +7,16 @@ from catalog.models import Product
 
 def home(request):
     # получение 5 последних продуктов
-    latest_products = Product.objects.order_by("-created_at")[:5]
+    products = Product.objects.all()
+    context = {"products": products}
 
-    # вывод продуктов в консоль
-    print("Последние 5 продуктов.")
-    for product in latest_products:
-        print(product.name)
+    return render(request, "home.html", context)
 
-    return render(request, "home.html", {"latest_products": latest_products})
 
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    context = {"product": product}
+    return render(request, "product_detail.html", context)
 
 def contacts(request):
     if request.method == "POST":
