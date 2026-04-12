@@ -43,6 +43,21 @@
             </div>
         </div>
     </div>
+    <h2>Последние продукты</h2>
+
+    <div class="row">
+        {% for product in latest_products %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5>{{ product.name }}</h5>
+                        <p>{{ product.description }}</p>
+                        <p><strong>{{ product.price }} ₽</strong></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
