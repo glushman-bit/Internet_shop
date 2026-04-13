@@ -7,12 +7,12 @@
 
 <div class="container">
     <div class="row">
-        {% for product in products %}
+        {% for product in page_object %}
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
                         <h5>{{ product.name }}</h5>
-                        <img src="{{ product.image | media_filter }}" width="200px" alt="def">
+                        <img src="{{ product.image | media_filter }}" width="200px" height="150" alt="def">
                         <p>{{ product.description|truncatechars:100 }}</p>
                         <div class="btn-group">
                             <a class="btn btn-primary" href="{% url 'catalog:product_detail' product.pk %}" role="button">Подробнее</a>
@@ -23,4 +23,6 @@
         {% endfor %}
     </div>
 </div>
+
+{% include 'includes/inc_page.html' %}
 {% endblock %}

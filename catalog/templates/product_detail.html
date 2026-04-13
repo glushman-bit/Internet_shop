@@ -12,11 +12,11 @@
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <img class="rounded mx-auto d-block" src="{{ product.image | media_filter }}" alt="def">
+                <img class="rounded mx-auto d-block" src="{{ product.image | media_filter }}" width="600" alt="def">
                 <p>{{ product.description }}</p>
                 <p><strong>{{ product.price }} ₽</strong></p>
                 <div class="btn-group">
-                    <a class="btn btn-secondary" href="{% url 'catalog:home' %}" role="button">Назад</a>
+                    <a class="btn btn-secondary" href="{% url 'catalog:product_list' %}" role="button">Назад</a>
                 </div>
             </div>
         </div>
