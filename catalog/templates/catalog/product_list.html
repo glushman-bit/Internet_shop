@@ -1,13 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 {% load my_tags %}
 
 {% block content %}
 
-{% include 'includes/home_header.html' %}
+{% include 'catalog/includes/home_header.html' %}
 
 <div class="container">
     <div class="row">
-        {% for product in page_object %}
+        {% for product in object_list %}
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
@@ -24,5 +24,5 @@
     </div>
 </div>
 
-{% include 'includes/inc_page.html' %}
+{% include 'catalog/includes/inc_page.html' %}
 {% endblock %}

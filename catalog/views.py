@@ -3,27 +3,25 @@ import datetime
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 
 from catalog.models import Contact, Category
 from catalog.models import Product
 
 
-def product_list(request):
-    products = Product.objects.all().order_by('-id')
-
-    paginator = Paginator(products, 6)
-    page_number = request.GET.get("page")
-    page_object = paginator.get_page(page_number)
-
-    context = {"page_object": page_object}
-
-    return render(request, "product_list.html", context)
+class ProductListView(ListView):
+    model = Product
+    template_name = "product_list.html"
+    context_object_name = "page_object"
+    paginate_by = 6
+    ordering = ["-id"]
 
 
 def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
     context = {"product": product}
-    return render(request, "product_detail.html", context)
+    return render(request, "catalog/product_detail.html", context)
+
 
 def contacts(request):
     if request.method == "POST":
@@ -40,7 +38,7 @@ def contacts(request):
     for contact in contact_list:
         print(contact.name)
 
-    return render(request, "contacts.html", {"contacts": contact_list})
+    return render(request, "catalog/contacts.html", {"contacts": contact_list})
 
 
 def create_product(request):
@@ -63,4 +61,4 @@ def create_product(request):
 
         return redirect("catalog:product_detail", pk=product.pk)
 
-    return render(request, "create_product.html")
+    return render(request, "catalog/create_product.html")
