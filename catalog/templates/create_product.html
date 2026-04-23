@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-9 col-sm-12">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Создание нового продукта</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name">Название</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Введите название продукта" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Описание</label>
+                        <textarea type="text" name="description" class="form-control" id="description" placeholder="Введение описание продукта" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image">Фотография</label>
+                        <input type="file" name="image" class="form-control" id="image" placeholder="Загрузите фото продукта">
+                    </div>
+                    <div class="mb-3">
+                        <label for="category">Категория</label>
+                        <input type="text" name="category" class="form-control" id="category" placeholder="Введите категорию продукта">
+                    </div>
+                    <div class="mb-3">
+                        <label for="price">Цена</label>
+                        <input type="number" name="price" class="form-control" id="price" step="0.01" placeholder="Введите цену продукта">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Создать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
