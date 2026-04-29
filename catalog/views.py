@@ -73,7 +73,6 @@ class ProductUpdateView(UpdateView):
         self.object.name = request.POST.get("name")
         self.object.description = request.POST.get("description")
 
-        # ⚠️ ВАЖНО: не затираем картинку если не загрузили новую
         if request.FILES.get("image"):
             self.object.image = request.FILES.get("image")
 
@@ -86,7 +85,7 @@ class ProductUpdateView(UpdateView):
         if request.POST.get("price"):
             self.object.price = request.POST.get("price")
 
-        self.object.save()  # 🔥 ключевая строка
+        self.object.save()
 
         return redirect("catalog:product_detail", self.object.pk)
 
