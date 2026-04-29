@@ -1,9 +1,7 @@
-import datetime
-
-from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from catalog.models import Contact, Category
 from catalog.models import Product
@@ -17,10 +15,90 @@ class ProductListView(ListView):
     ordering = ["-id"]
 
 
-def product_detail(request, pk):
-    product = Product.objects.get(pk=pk)
-    context = {"product": product}
-    return render(request, "catalog/product_detail.html", context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product"
+    success_url =reverse_lazy("catalog:product_list")
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = '__all__'
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy("catalog:product_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        name = request.POST.get("name")
+        description = request.POST.get("description")
+        image = request.FILES.get("image")
+        category_name = request.POST.get("category")
+        price = request.POST.get("price")
+
+        category, _ = Category.objects.get_or_create(name=category_name)
+
+        product = Product(
+            name=name,
+            description=description,
+            category=category,
+            price=price
+        )
+
+        if image:
+            product.image = image
+
+        product.save()
+
+        return redirect("catalog:product_list")
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    fields = ["name", "description", "image", "category", "price"]
+    template_name = "catalog/product_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        self.object.name = request.POST.get("name")
+        self.object.description = request.POST.get("description")
+
+        # ⚠️ ВАЖНО: не затираем картинку если не загрузили новую
+        if request.FILES.get("image"):
+            self.object.image = request.FILES.get("image")
+
+        category_id = request.POST.get("category")
+        if category_id:
+            category = get_object_or_404(Category, pk=category_id)
+            self.object.category = category
+
+
+        if request.POST.get("price"):
+            self.object.price = request.POST.get("price")
+
+        self.object.save()  # 🔥 ключевая строка
+
+        return redirect("catalog:product_detail", self.object.pk)
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "catalog/product_confirm_delete.html"
+    success_url = reverse_lazy("catalog:product_list")
+
+
+
+
 
 
 def contacts(request):
@@ -33,32 +111,8 @@ def contacts(request):
         return HttpResponse(f"Привет {name}, ваши данные приняты.")
 
     contact_list = Contact.objects.all()
-    print("Количество контактов: ", contact_list.count())
 
     for contact in contact_list:
         print(contact.name)
 
     return render(request, "catalog/contacts.html", {"contacts": contact_list})
-
-
-def create_product(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        description = request.POST.get("description")
-        image = request.FILES.get("image")
-        category = request.POST.get("category")
-        price = request.POST.get("price")
-
-        category, _ = Category.objects.get_or_create(name=category)
-
-        product = Product.objects.create(
-            name=name,
-            description=description,
-            image=image,
-            category=category,
-            price=price,
-        )
-
-        return redirect("catalog:product_detail", pk=product.pk)
-
-    return render(request, "catalog/create_product.html")
