@@ -97,21 +97,16 @@ class ProductDeleteView(DeleteView):
 
 
 
+class ContactListView(ListView):
+    model = Contact
+    template_name = "catalog/contacts.html"
+    context_object_name = "contacts"
 
-
-
-def contacts(request):
-    if request.method == "POST":
+    def post(self, request, *args, **kwargs):
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
-        print(f"Имя : {name},\n" f"Телефон : {phone},\n" f"Сообщение : {message}")
+
+        print(f"name: {name},\n" f"phone: {phone},\n" f"message: {message}")
 
         return HttpResponse(f"Привет {name}, ваши данные приняты.")
-
-    contact_list = Contact.objects.all()
-
-    for contact in contact_list:
-        print(contact.name)
-
-    return render(request, "catalog/contacts.html", {"contacts": contact_list})
