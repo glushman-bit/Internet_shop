@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Blog(models.Model):
+class Article(models.Model):
     title = models.CharField(
         max_length=100,
         verbose_name="Название статьи",
