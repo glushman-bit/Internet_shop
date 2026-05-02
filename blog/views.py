@@ -11,6 +11,9 @@ class ArticleListView(ListView):
     paginate_by = 10
     ordering = ["-created_at"]
 
+    def get_queryset(self):
+        return Article.objects.order_by("is_active")
+
 
 class ArticleDetailView(DetailView):
     model = Article
@@ -35,7 +38,9 @@ class ArticleUpdateView(UpdateView):
     model = Article
     fields = ("title", "content", "image")
     template_name = "blog/article_form.html"
-    success_url = reverse_lazy("blog:article_list")
+
+    def get_success_url(self):
+        return reverse_lazy("blog:article_detail", args=[self.kwargs["pk"]])
 
 
 class ArticleDeleteView(DeleteView):

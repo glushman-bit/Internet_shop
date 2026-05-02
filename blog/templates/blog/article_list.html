@@ -6,22 +6,27 @@
 {% include 'blog/includes/home_header.html' %}
 
 <div class="container">
+    <div class="mb-3">
+        <a class="btn btn-outline-secondary" href="{% url 'blog:article_create' %}" role="button">Создать запись</a>
+    </div>
     <div class="row">
-        {% for product in object_list %}
-            <div class="col-md-4">
+        {% for article in object_list %}
+            {% if article.is_active %}
+            <div class="md-4">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
-                        <h5>{{ product.name }}</h5>
-                        <img src="{{ blog.image | media_filter }}" width="200px" height="150" alt="def">
-                        <p>{{ product.description|truncatechars:100 }}</p>
+                        <h5>{{ article.title }}</h5>
+                        <img src="{{ article.image | media_filter }}" width="200px" height="150" alt="def">
+                        <p>{{ article.content|truncatechars:100 }}</p>
                         <div class="btn-group">
-                            <a class="btn btn-outline-primary" href="#" role="button">Подробнее</a>
-                            <a class="btn btn-outline-secondary" href="#" role="button">Редактировать</a>
-                            <a class="btn btn-outline-danger" href="#" role="button">Удалить</a>
+                            <a class="btn btn-outline-primary" href="{% url 'blog:article_detail' article.pk %}" role="button">Подробнее</a>
+                            <a class="btn btn-outline-secondary" href="{% url 'blog:article_create' article.pk %}" role="button">Редактировать</a>
+                            <a class="btn btn-outline-danger" href="{% url 'blog:article_delete' article.pk %}" role="button">Удалить</a>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
