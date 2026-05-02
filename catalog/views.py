@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -33,61 +33,17 @@ class ProductCreateView(CreateView):
         context["category_list"] = Category.objects.all()
         return context
 
-    def post(self, request, *args, **kwargs):
-        name = request.POST.get("name")
-        description = request.POST.get("description")
-        image = request.FILES.get("image")
-        category_name = request.POST.get("category")
-        price = request.POST.get("price")
-
-        category, _ = Category.objects.get_or_create(name=category_name)
-
-        product = Product(
-            name=name,
-            description=description,
-            category=category,
-            price=price
-        )
-
-        if image:
-            product.image = image
-
-        product.save()
-
-        return redirect("catalog:product_list")
-
 
 class ProductUpdateView(UpdateView):
     model = Product
     fields = ["name", "description", "image", "category", "price"]
     template_name = "catalog/product_form.html"
+    success_url = reverse_lazy("catalog:product_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["category_list"] = Category.objects.all()
         return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-
-        self.object.name = request.POST.get("name")
-        self.object.description = request.POST.get("description")
-
-        if request.FILES.get("image"):
-            self.object.image = request.FILES.get("image")
-
-        category_id = request.POST.get("category")
-        if category_id:
-            category = get_object_or_404(Category, pk=category_id)
-            self.object.category = category
-
-
-        if request.POST.get("price"):
-            self.object.price = request.POST.get("price")
-
-        self.object.save()
-
-        return redirect("catalog:product_detail", self.object.pk)
 
 
 class ProductDeleteView(DeleteView):
