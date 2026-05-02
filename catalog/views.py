@@ -1,66 +1,66 @@
-import datetime
-
-from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from catalog.models import Contact, Category
 from catalog.models import Product
 
 
-def product_list(request):
-    products = Product.objects.all().order_by('-id')
-
-    paginator = Paginator(products, 6)
-    page_number = request.GET.get("page")
-    page_object = paginator.get_page(page_number)
-
-    context = {"page_object": page_object}
-
-    return render(request, "product_list.html", context)
+class ProductListView(ListView):
+    model = Product
+    template_name = "catalog/product_list.html"
+    context_object_name = "page_object"
+    paginate_by = 6
+    ordering = ["-id"]
 
 
-def product_detail(request, pk):
-    product = Product.objects.get(pk=pk)
-    context = {"product": product}
-    return render(request, "product_detail.html", context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product"
+    success_url = reverse_lazy("catalog:product_list")
 
-def contacts(request):
-    if request.method == "POST":
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = '__all__'
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy("catalog:product_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    fields = ["name", "description", "image", "category", "price"]
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy("catalog:product_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "catalog/product_confirm_delete.html"
+    success_url = reverse_lazy("catalog:product_list")
+
+
+class ContactListView(ListView):
+    model = Contact
+    template_name = "catalog/contacts.html"
+    context_object_name = "contacts"
+
+    def post(self, request, *args, **kwargs):
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
-        print(f"Имя : {name},\n" f"Телефон : {phone},\n" f"Сообщение : {message}")
+
+        print(f"name: {name},\n" f"phone: {phone},\n" f"message: {message}")
 
         return HttpResponse(f"Привет {name}, ваши данные приняты.")
-
-    contact_list = Contact.objects.all()
-    print("Количество контактов: ", contact_list.count())
-
-    for contact in contact_list:
-        print(contact.name)
-
-    return render(request, "contacts.html", {"contacts": contact_list})
-
-
-def create_product(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        description = request.POST.get("description")
-        image = request.FILES.get("image")
-        category = request.POST.get("category")
-        price = request.POST.get("price")
-
-        category, _ = Category.objects.get_or_create(name=category)
-
-        product = Product.objects.create(
-            name=name,
-            description=description,
-            image=image,
-            category=category,
-            price=price,
-        )
-
-        return redirect("catalog:product_detail", pk=product.pk)
-
-    return render(request, "create_product.html")

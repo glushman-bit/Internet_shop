@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Интернет-shop</h5>
+        <div class="collapse navbar-collapse">
+            <a class="ms-4 ml-2 btn btn-outline-primary" href="{% url 'catalog:product_list' %}">Каталог</a>
+            <a class="ms-2 ml-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
+            <a class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end" href="{% url 'catalog:product_create' %}">Создать продукт</a>
+        </div>
+        <div>
+            <a class="ml-2 btn btn-outline-primary" href="{% url 'blog:article_list' %}">Блог</a>
+            <a class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end" href="#">Войти</a>
+        </div>
+    </div>
+</nav>

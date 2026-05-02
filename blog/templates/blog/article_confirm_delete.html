@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="col">
+            <form method="post" class="row-cols-2" enctype="multipart/form-data">
+                <div class="card">
+                    <p class="card-text mb-2 m-md-2"><strong>Вы уверены, что хотите удалить:</strong></p>
+                    <p class="mb-2 m-md-2">{{ object.title }}</p>
+                    <p class="mb-2 m-md-2">{{ object.content|truncatechars:100 }}</p>
+                    <img src="{{ article.image | media_filter }}" width="200px" height="150" alt="def" style="margin-left: 20px;">
+                    <div class="card-body">
+                        {% csrf_token %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button type="submit" class="btn mb-2 m-md-3 btn-danger">Да, уверен</button>
+                        <a class="btn btn-outline-primary" href="{% url 'blog:article_list' %}" role="button">Нет</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
