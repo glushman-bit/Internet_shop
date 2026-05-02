@@ -1,0 +1,51 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="col-md-9 col-sm-12">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    {% if object %}
+                    Редактирование записи
+                    {% else %}
+                    Создание новой записи
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="name">Название</label>
+                        <input type="text" name="title" value="{% if object %}{{ object.title }}{% endif %}" class="form-control" id="name" placeholder="Введите название статьи" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Описание</label>
+                        <textarea type="text" name="content" class="form-control" id="description" placeholder="Введение описание" required>{% if object %}{{ object.content }}{% endif %}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image">Фотография</label>
+                        <input type="file" name="image" class="form-control" id="image" placeholder="Загрузите фото продукта">
+                        {% if object and object.image %}
+                            <div class="mt-2">
+                                <p>Текущая картинка:</p>
+                                <img src="{{ object.image.url }}" style="max-height: 200px;">
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                        {% if object %}
+                        Сохранить
+                        {% else %}
+                        Создать
+                        {% endif %}
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

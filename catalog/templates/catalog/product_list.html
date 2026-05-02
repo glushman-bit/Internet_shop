@@ -1,0 +1,30 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+
+{% include 'catalog/includes/home_header.html' %}
+
+<div class="container">
+    <div class="row">
+        {% for product in object_list %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5>{{ product.name }}</h5>
+                        <img src="{{ product.image | media_filter }}" width="200px" height="150" alt="def">
+                        <p>{{ product.description|truncatechars:100 }}</p>
+                        <div class="btn-group">
+                            <a class="btn btn-outline-primary" href="{% url 'catalog:product_detail' product.pk %}" role="button">Подробнее</a>
+                            <a class="btn btn-outline-secondary" href="{% url 'catalog:product_create' product.pk %}" role="button">Редактировать</a>
+                            <a class="btn btn-outline-danger" href="{% url 'catalog:product_delete' product.pk %}" role="button">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include 'catalog/includes/inc_page.html' %}
+{% endblock %}
