@@ -26,9 +26,11 @@ class ProductForm(StyleFormMixin, ModelForm):
             "description": forms.Textarea(attrs={"rows": 3}),
         }
 
-    def clean_name(self):
-        name = self.cleaned_data["name"]
-        name_lower = name.lower()
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name', '').lower()
+        description = cleaned_data.get('description', '').lower()
+
         forbidden_words = [
             "казино",
             "биржа",
@@ -40,9 +42,12 @@ class ProductForm(StyleFormMixin, ModelForm):
             "полиция",
             "радар",
         ]
-        if name_lower in forbidden_words:
-            raise ValidationError("это слово запрещено")
-        return name
+        for word in forbidden_words:
+            if word in name or word in description:
+                raise ValidationError(f"Слово '{word}' запрещено к использованию")
+
+        return cleaned_data
+
 
     def clean_price(self):
         price = self.cleaned_data["price"]
