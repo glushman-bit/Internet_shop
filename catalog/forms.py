@@ -1,3 +1,5 @@
+import os
+
 from django.forms import ModelForm
 from django import forms
 from catalog.models import Product
@@ -11,6 +13,7 @@ class StyleFormMixin:
             field.widget.attrs.update({
                 'class': 'form-control',
             })
+
 
 class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
@@ -37,3 +40,17 @@ class ProductForm(StyleFormMixin, ModelForm):
         if price <= 0:
             raise ValidationError('Цена не может быть отрицательной или равной 0')
         return price
+
+    def clean_image(self):
+        image = self.cleaned_data['image']
+        if image is None:
+            return image
+
+        formated_image = ['.jpg', '.png', ]
+        _, file_ext = os.path.splitext(image.name)
+
+        if file_ext not in formated_image:
+            raise ValidationError('Неверный формат файла')
+        elif image.size > 5 * 1024 * 1024:
+            raise ValidationError('Неверный размер файла')
+        return image
