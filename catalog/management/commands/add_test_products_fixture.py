@@ -6,13 +6,13 @@ from catalog.models import Product
 
 
 class Command(BaseCommand):
-    help = 'Добавление продуктов в базу данных из фикстуры'
+    help = "Добавление продуктов в базу данных из фикстуры"
 
     def handle(self, *args, **kwargs):
-        """ Удаление существующих записей. """
+        """Удаление существующих записей."""
 
         Product.objects.all().delete()
         Category.objects.all().delete()
 
-        call_command('loaddata', 'catalog/fixtures/catalog_fixture.json')
-        self.stdout.write(self.style.SUCCESS('Данные успешно загружены из фикстуры.'))
+        call_command("loaddata", "catalog/fixtures/catalog_fixture.json")
+        self.stdout.write(self.style.SUCCESS("Данные успешно загружены из фикстуры."))
