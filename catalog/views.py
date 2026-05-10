@@ -1,14 +1,10 @@
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.views.generic import DeleteView
-from django.views.generic import DetailView
-from django.views.generic import ListView
-from django.views.generic import UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
 
 from catalog.forms import ProductForm
-from catalog.models import Category
-from catalog.models import Contact
+from catalog.models import Contact, Category
 from catalog.models import Product
 
 
@@ -26,6 +22,11 @@ class ProductDetailView(DetailView):
     context_object_name = "product"
     success_url = reverse_lazy("catalog:product_list")
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.views_count += 1
+        self.object.save()
+        return self.object
 
 class ProductCreateView(CreateView):
     model = Product
@@ -51,7 +52,7 @@ class ProductUpdateView(UpdateView):
         return context
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "catalog/product_confirm_delete.html"
     success_url = reverse_lazy("catalog:product_list")

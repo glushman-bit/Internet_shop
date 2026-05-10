@@ -21,7 +21,7 @@ class StyleFormMixin:
 class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Product
-        exclude = ("created_at", "updated_at")
+        exclude = ("created_at", "updated_at", "views_count",)
         widgets = {
             "description": forms.Textarea(attrs={"rows": 3}),
         }
@@ -62,7 +62,7 @@ class ProductForm(StyleFormMixin, ModelForm):
             return image
 
         formated_image = [
-            ".jpg",
+            ".JPG",
             ".png",
         ]
         _, file_ext = os.path.splitext(image.name)

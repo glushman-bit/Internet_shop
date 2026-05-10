@@ -28,6 +28,10 @@ class Product(models.Model):
         auto_now=True,
         verbose_name="Дата изменения продукта",
     )
+    views_count = models.IntegerField(
+        default=0,
+        verbose_name="Счетчик просмотров",
+    )
 
     def __str__(self):
         return self.name

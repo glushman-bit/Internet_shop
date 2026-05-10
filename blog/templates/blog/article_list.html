@@ -7,7 +7,9 @@
 
 <div class="container">
     <div class="mb-3">
+        {% if user.is_authenticated %}
         <a class="btn btn-outline-secondary" href="{% url 'blog:article_create' %}" role="button">Создать запись</a>
+        {% endif %}
     </div>
     <div class="row">
         {% for article in object_list %}
@@ -20,8 +22,10 @@
                         <p>{{ article.content|truncatechars:100 }}</p>
                         <div class="btn-group">
                             <a class="btn btn-outline-primary" href="{% url 'blog:article_detail' article.pk %}" role="button">Подробнее</a>
+                            {% if user.is_authenticated %}
                             <a class="btn btn-outline-secondary" href="{% url 'blog:article_create' article.pk %}" role="button">Редактировать</a>
                             <a class="btn btn-outline-danger" href="{% url 'blog:article_delete' article.pk %}" role="button">Удалить</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
