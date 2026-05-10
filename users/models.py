@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractUser):
@@ -18,11 +18,7 @@ class User(AbstractUser):
         help_text="Введите номер телефона",
     )
     avatar = models.ImageField(
-        upload_to="users/avatar",
-        verbose_name="Avatar",
-        blank=True,
-        null=True,
-        help_text="Загрузить аватар"
+        upload_to="users/avatar", verbose_name="Avatar", blank=True, null=True, help_text="Загрузить аватар"
     )
     country = CountryField(
         blank_label="Country",

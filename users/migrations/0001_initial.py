@@ -4,7 +4,8 @@ import django.contrib.auth.models
 import django.utils.timezone
 import django_countries.fields
 import phonenumber_field.modelfields
-from django.db import migrations, models
+from django.db import migrations
+from django.db import models
 
 
 class Migration(migrations.Migration):

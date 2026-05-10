@@ -1,10 +1,15 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
+from django.views.generic import DeleteView
+from django.views.generic import DetailView
+from django.views.generic import ListView
+from django.views.generic import UpdateView
 
 from catalog.forms import ProductForm
-from catalog.models import Contact, Category
+from catalog.models import Category
+from catalog.models import Contact
 from catalog.models import Product
 
 
@@ -27,6 +32,7 @@ class ProductDetailView(DetailView):
         self.object.views_count += 1
         self.object.save()
         return self.object
+
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
