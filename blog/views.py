@@ -4,6 +4,7 @@ from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from blog.models import Article
 
@@ -31,14 +32,14 @@ class ArticleDetailView(DetailView):
         return self.object
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     fields = ("title", "content", "image")
     template_name = "blog/article_form.html"
     success_url = reverse_lazy("blog:article_list")
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     fields = ("title", "content", "image")
     template_name = "blog/article_form.html"
@@ -47,7 +48,7 @@ class ArticleUpdateView(UpdateView):
         return reverse_lazy("blog:article_detail", args=[self.kwargs["pk"]])
 
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
     model = Article
     template_name = "blog/article_confirm_delete.html"
     success_url = reverse_lazy("blog:article_list")
