@@ -94,8 +94,6 @@ class ProductUnpublishView(LoginRequiredMixin, View):
 
         if not request.user.has_perm("catalog.can_unpublish_product"):
             return HttpResponseForbidden("У вас не доступа для снятия продукта с публикации.")
-        elif not request.user.has_perm("catalog.delete_product"):
-            return HttpResponseForbidden("У вас нет доступа для удаления продукта.")
 
         product.published = False
         product.save()
