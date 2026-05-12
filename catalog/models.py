@@ -32,6 +32,7 @@ class Product(models.Model):
         default=0,
         verbose_name="Счетчик просмотров",
     )
+    published = models.BooleanField(null=True, blank=True, default=False)
 
     def __str__(self):
         return self.name
@@ -39,6 +40,9 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product"),
+        ]
 
 
 class Category(models.Model):
