@@ -1,19 +1,24 @@
 import secrets
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.shortcuts import redirect, get_object_or_404
-from django.views.generic import CreateView, UpdateView
-from users.models import User
-from users.forms import UserRegisterForm
-from django.urls import reverse_lazy, reverse
-from config.settings import EMAIL_HOST_USER
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from django.views.generic import DetailView
+from django.views.generic import UpdateView
 
+from config.settings import EMAIL_HOST_USER
+from users.forms import UserRegisterForm
+from users.models import User
 
 
 class UserCreateView(CreateView):
     model = User
     form_class = UserRegisterForm
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy("users:login")
 
     def form_valid(self, form):
         user = form.save()
@@ -22,25 +27,39 @@ class UserCreateView(CreateView):
         user.token = token
         user.save()
         host = self.request.get_host()
-        url = f'http://{host}/users/email-confirm/{token}/'
+        url = f"http://{host}/users/email-confirm/{token}/"
 
         send_mail(
-            subject='Подтверждение почты',
-            message=f'Привет, {user.email}, перейди по ссылке для подтверждения почты: {url}',
+            subject="Подтверждение почты",
+            message=f"Привет, {user.email}, перейди по ссылке для подтверждения почты: {url}",
             from_email=EMAIL_HOST_USER,
-            recipient_list=[user.email]
+            recipient_list=[user.email],
         )
 
         return super().form_valid(form)
+
 
 def email_verification(request, token):
     user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
 
-    return redirect(reverse('users:login'))
+    return redirect(reverse("users:login"))
 
-class UserUpdateView(UpdateView):
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = "users/profile.html"
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserRegisterForm
-    success_url = reverse_lazy('users:profile')
+    template_name = "users/profile_form.html"
+    success_url = reverse_lazy("users:profile")
+
+    def get_object(self, queryset=None):
+        return self.request.user

@@ -1,14 +1,36 @@
+{% load my_tags %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <h5 class="my-0 mr-md-auto font-weight-normal">Интернет-shop</h5>
         <div class="collapse navbar-collapse">
             <a class="ms-4 ml-2 btn btn-outline-primary" href="{% url 'catalog:product_list' %}">Каталог</a>
             <a class="ms-2 ml-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
-            <a class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end" href="{% url 'catalog:product_create' %}">Создать продукт</a>
+            {% if user.is_authenticated %}
+                <a class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end" href="{% url 'catalog:product_create' %}">Создать продукт</a>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if user.is_authenticated %}
+            <b>Добро пожаловать, {{ user.email }}!</b>
+                {% if user.avatar %}
+                    <img src="{{ user.avatar | media_filter }}" class="rounded-circle"  width="30px" alt="def">
+                {% endif %}
+            {% else %}
+            <b>Добро пожаловать на сайт!</b>
+            {% endif %}
         </div>
         <div>
             <a class="ml-2 btn btn-outline-primary" href="{% url 'blog:article_list' %}">Блог</a>
-            <a class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end" href="#">Войти</a>
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'users:logout' %}" style="display: inline">
+                {% csrf_token %}
+                <button type="submit" class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end">Выйти</button>
+                <a class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end" href="{% url 'users:profile' %}">Личный кабинет</a>
+            </form>
+            {% else %}
+            <a class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end" href="{% url 'users:login' %}">Войти</a>
+            <a class="ms-2 ml-2 btn btn-outline-primary align-content-lg-end" href="{% url 'users:register' %}">Регистрация</a>
+            {% endif %}
         </div>
     </div>
 </nav>

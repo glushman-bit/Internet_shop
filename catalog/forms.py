@@ -21,15 +21,19 @@ class StyleFormMixin:
 class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Product
-        exclude = ("created_at", "updated_at", "views_count",)
+        exclude = (
+            "created_at",
+            "updated_at",
+            "views_count",
+        )
         widgets = {
             "description": forms.Textarea(attrs={"rows": 3}),
         }
 
     def clean(self):
         cleaned_data = super().clean()
-        name = cleaned_data.get('name', '').lower()
-        description = cleaned_data.get('description', '').lower()
+        name = cleaned_data.get("name", "").lower()
+        description = cleaned_data.get("description", "").lower()
 
         forbidden_words = [
             "казино",
@@ -47,7 +51,6 @@ class ProductForm(StyleFormMixin, ModelForm):
                 raise ValidationError(f"Слово '{word}' запрещено к использованию")
 
         return cleaned_data
-
 
     def clean_price(self):
         price = self.cleaned_data["price"]

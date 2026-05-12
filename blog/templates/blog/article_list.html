@@ -18,7 +18,7 @@
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
                         <h5>{{ article.title }}</h5>
-                        <img src="{{ article.image | media_filter }}" width="200px" height="150" alt="def">
+                        <img src="{{ article.image | media_filter }}" width="100px" alt="def">
                         <p>{{ article.content|truncatechars:100 }}</p>
                         <div class="btn-group">
                             <a class="btn btn-outline-primary" href="{% url 'blog:article_detail' article.pk %}" role="button">Подробнее</a>
