@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 
+from django.conf.global_settings import FIXTURE_DIRS
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -114,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+FIXTURE_DIRS = [BASE_DIR / "fixtures"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
