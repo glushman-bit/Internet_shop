@@ -22,16 +22,19 @@
                         {% endif %}
                         <div class="btn-group">
                             <a class="btn btn-sm btn-outline-primary rounded-2" href="{% url 'catalog:product_detail' product.pk %}" role="button">Подробнее</a>
-                            {% if user.is_authenticated %}
+                            {% if user == product.owner or user.is_superuser %}
                             <a class="btn btn-sm btn-outline-secondary rounded-2" href="{% url 'catalog:product_create' product.pk %}" role="button">Редактировать</a>
+                            {% endif %}
+                            {% if user == product.owner or perms.catalog.delete_product or user.is_superuser %}
+                            <a class="btn btn-sm btn-outline-danger rounded-2" href="{% url 'catalog:product_delete' product.pk %}" role="button">Удалить</a>
+                            {% endif %}
+                            {% if user.is_superuser or perms.catalog.can_unpublish_product %}
                             <form method="post" action="{% url 'catalog:product_unpublish' product.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-sm btn-outline-danger">
                                     Снять с публикации
                                 </button>
                             </form>
-
-                            <a class="btn btn-sm btn-outline-danger rounded-2" href="{% url 'catalog:product_delete' product.pk %}" role="button">Удалить</a>
                             {% endif %}
                         </div>
                     </div>
