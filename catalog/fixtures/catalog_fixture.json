@@ -10,7 +10,9 @@
         "price": "100.00",
         "created_at": "2026-05-10",
         "updated_at": "2026-05-10",
-        "views_count": 0
+        "views_count": 0,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -23,8 +25,10 @@
         "category": 5,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-12",
+        "views_count": 5,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -37,8 +41,10 @@
         "category": 5,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-14",
+        "views_count": 0,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -51,8 +57,10 @@
         "category": 5,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-12",
+        "views_count": 2,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -65,8 +73,10 @@
         "category": 6,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-12",
+        "views_count": 0,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -79,8 +89,10 @@
         "category": 6,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-12",
+        "views_count": 1,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -93,8 +105,10 @@
         "category": 5,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-12",
+        "views_count": 1,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -107,8 +121,10 @@
         "category": 4,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-14",
+        "views_count": 4,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -121,8 +137,10 @@
         "category": 7,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-12",
+        "views_count": 0,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -135,8 +153,10 @@
         "category": 6,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-14",
+        "views_count": 3,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -149,8 +169,10 @@
         "category": 6,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 10
+        "updated_at": "2026-05-14",
+        "views_count": 10,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -163,8 +185,10 @@
         "category": 5,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-14",
+        "views_count": 1,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -177,8 +201,10 @@
         "category": 6,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-14",
+        "views_count": 0,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -191,8 +217,10 @@
         "category": 7,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 0
+        "updated_at": "2026-05-12",
+        "views_count": 0,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -205,8 +233,10 @@
         "category": 7,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 1
+        "updated_at": "2026-05-12",
+        "views_count": 1,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -219,8 +249,10 @@
         "category": 4,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 4
+        "updated_at": "2026-05-14",
+        "views_count": 9,
+        "published": false,
+        "owner": null
     }
 },
 {
@@ -233,22 +265,42 @@
         "category": 7,
         "price": "100.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 3
+        "updated_at": "2026-05-14",
+        "views_count": 14,
+        "published": false,
+        "owner": null
     }
 },
 {
     "model": "catalog.product",
     "pk": 28,
     "fields": {
-        "name": "test",
+        "name": "test2",
         "description": "test",
         "image": "products/photos/Девушка_в_белом_zeDLBlZ.JPG",
         "category": 5,
         "price": "1.00",
         "created_at": "2026-05-10",
-        "updated_at": "2026-05-10",
-        "views_count": 1
+        "updated_at": "2026-05-12",
+        "views_count": 40,
+        "published": false,
+        "owner": null
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 30,
+    "fields": {
+        "name": "test___2",
+        "description": "test____2",
+        "image": "products/photos/65057-linii_sinie_abstrakciya_4pihaMA.jpg",
+        "category": 5,
+        "price": "2.00",
+        "created_at": "2026-05-14",
+        "updated_at": "2026-05-14",
+        "views_count": 4,
+        "published": false,
+        "owner": 18
     }
 },
 {

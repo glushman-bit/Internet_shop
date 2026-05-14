@@ -1,0 +1,90 @@
+[
+{
+    "model": "users.user",
+    "pk": 16,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$z5HzeKnfDFuTasVctZ58G9$vyFwpq4G1Wvw07nbxCSRVjnV07DjSv9MCy6ehRC7ym0=",
+        "last_login": "2026-05-14T20:13:08.726Z",
+        "is_superuser": true,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-05-12T16:56:09.128Z",
+        "email": "admin@example.com",
+        "phone_number": null,
+        "avatar": "",
+        "country": null,
+        "token": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 17,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$xwopoMVVCDyejn2AthKSby$t14i34datDqQcW5B/smq+1uEroip4zuBz6SdJanLr80=",
+        "last_login": "2026-05-14T20:14:58.824Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-12T17:04:08Z",
+        "email": "test_1@example.pro",
+        "phone_number": null,
+        "avatar": "",
+        "country": null,
+        "token": null,
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 18,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$2P2rrW6R0GDkFuZ1KSfiJY$db/S52YwJuYB24r2xZ8mBfh/4KJnGv9ZOU2BjQe5axg=",
+        "last_login": "2026-05-14T20:15:28.884Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-12T17:04:39Z",
+        "email": "test_2@example.pro",
+        "phone_number": null,
+        "avatar": "",
+        "country": null,
+        "token": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 19,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$jjEzmxP626L7cDD2xcbkPy$2qb0ICmCILd1Wpg0XGIIyboisLywAnYeDxlzVK4kM98=",
+        "last_login": "2026-05-14T20:14:00.077Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-12T17:04:56Z",
+        "email": "test_3@example.pro",
+        "phone_number": null,
+        "avatar": "",
+        "country": null,
+        "token": null,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+}
+]
