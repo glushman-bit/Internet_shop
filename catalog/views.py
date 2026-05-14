@@ -1,14 +1,17 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
-from django.views.generic import UpdateView, View
-from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponseForbidden
+from django.views.generic import UpdateView
+from django.views.generic import View
 
 from catalog.forms import ProductForm
 from catalog.models import Category
@@ -25,6 +28,7 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         return Product.objects.order_by("-published")
+
 
 class ProductDetailView(DetailView):
     model = Product
@@ -73,7 +77,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_class(self):
         user = self.request.user
-        if user == self.object.owner or user.is_superuser :
+        if user == self.object.owner or user.is_superuser:
             return ProductForm
         raise PermissionDenied
 
@@ -87,13 +91,9 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         product = self.get_object()
         user = self.request.user
         is_owner = user == product.owner
-        is_moderator = (
-            user.is_superuser or user.groups.filter(
-            name="Модератор продуктов").exists()
-        )
+        is_moderator = user.is_superuser or user.groups.filter(name="Модератор продуктов").exists()
 
         return is_owner or is_moderator
-
 
 
 class ContactListView(ListView):

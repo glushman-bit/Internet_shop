@@ -37,9 +37,9 @@ class Product(models.Model):
     published = models.BooleanField(null=True, blank=True, default=False)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        verbose_name='Владелец',
+        verbose_name="Владелец",
         on_delete=models.CASCADE,
-        help_text='Укажите владельца продукта',
+        help_text="Укажите владельца продукта",
         blank=True,
         null=True,
     )
