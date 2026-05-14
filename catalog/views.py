@@ -1,6 +1,5 @@
-from itertools import product
-
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -40,7 +39,7 @@ class ProductDetailView(DetailView):
         return self.object
 
 
-class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/product_form.html"
@@ -52,25 +51,49 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         context["category_list"] = Category.objects.all()
         return context
 
+    def form_valid(self, form):
+        product = form.save()
+        user = self.request.user
+        product.owner = user
+        product.save()
+        return super().form_valid(form)
 
-class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/product_form.html"
     success_url = reverse_lazy("catalog:product_list")
-    permission_required = "catalog.can_change_product"
+    # permission_required = "catalog.can_change_product"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["category_list"] = Category.objects.all()
         return context
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner or user.is_superuser :
+            return ProductForm
+        raise PermissionDenied
 
-class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = "catalog/product_confirm_delete.html"
     success_url = reverse_lazy("catalog:product_list")
-    permission_required = "catalog.delete_product"
+
+    def test_func(self):
+        product = self.get_object()
+        user = self.request.user
+        is_owner = user == product.owner
+        is_moderator = (
+            user.is_superuser or user.groups.filter(
+            name="Модератор продуктов").exists()
+        )
+
+        return is_owner or is_moderator
+
 
 
 class ContactListView(ListView):
