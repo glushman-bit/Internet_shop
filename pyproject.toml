@@ -18,6 +18,7 @@ isort = "^8.0.1"
 mypy = "^1.20.2"
 django-phonenumber-field = "^8.4.0"
 django-countries = "^8.2.0"
+redis = "^7.4.0"
 
 
 [tool.poetry.group.lint.dependencies]
