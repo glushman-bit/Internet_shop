@@ -6,6 +6,8 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
@@ -19,6 +21,7 @@ from catalog.models import Contact
 from catalog.models import Product
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class ProductListView(ListView):
     model = Product
     template_name = "catalog/product_list.html"
