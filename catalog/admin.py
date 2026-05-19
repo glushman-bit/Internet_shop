@@ -13,7 +13,10 @@ class CatalogAdmin(admin.ModelAdmin):
         "price",
         "category",
     )
-    list_filter = ("category",)
+    list_filter = (
+        "category",
+        "published",
+    )
     search_fields = (
         "name",
         "description",

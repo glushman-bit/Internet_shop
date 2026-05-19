@@ -25,6 +25,8 @@ class ProductForm(StyleFormMixin, ModelForm):
             "created_at",
             "updated_at",
             "views_count",
+            "published",
+            "owner",
         )
         widgets = {
             "description": forms.Textarea(attrs={"rows": 3}),
@@ -65,7 +67,7 @@ class ProductForm(StyleFormMixin, ModelForm):
             return image
 
         formated_image = [
-            ".JPG",
+            ".jpg",
             ".png",
         ]
         _, file_ext = os.path.splitext(image.name)

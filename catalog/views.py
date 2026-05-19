@@ -1,11 +1,17 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic import View
 
 from catalog.forms import ProductForm
 from catalog.models import Category
@@ -19,6 +25,9 @@ class ProductListView(ListView):
     context_object_name = "page_object"
     paginate_by = 6
     ordering = ["-id"]
+
+    def get_queryset(self):
+        return Product.objects.order_by("-published")
 
 
 class ProductDetailView(DetailView):
@@ -39,11 +48,19 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     template_name = "catalog/product_form.html"
     success_url = reverse_lazy("catalog:product_list")
+    permission_required = "catalog.can_add_product"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["category_list"] = Category.objects.all()
         return context
+
+    def form_valid(self, form):
+        product = form.save()
+        user = self.request.user
+        product.owner = user
+        product.save()
+        return super().form_valid(form)
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
@@ -51,17 +68,32 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     template_name = "catalog/product_form.html"
     success_url = reverse_lazy("catalog:product_list")
+    # permission_required = "catalog.can_change_product"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["category_list"] = Category.objects.all()
         return context
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner or user.is_superuser:
+            return ProductForm
+        raise PermissionDenied
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = "catalog/product_confirm_delete.html"
     success_url = reverse_lazy("catalog:product_list")
+
+    def test_func(self):
+        product = self.get_object()
+        user = self.request.user
+        is_owner = user == product.owner
+        is_moderator = user.is_superuser or user.groups.filter(name="Модератор продуктов").exists()
+
+        return is_owner or is_moderator
 
 
 class ContactListView(ListView):
@@ -77,3 +109,16 @@ class ContactListView(ListView):
         print(f"name: {name},\n" f"phone: {phone},\n" f"message: {message}")
 
         return HttpResponse(f"Привет {name}, ваши данные приняты.")
+
+
+class ProductUnpublishView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        product = get_object_or_404(Product, id=pk)
+
+        if not request.user.has_perm("catalog.can_unpublish_product"):
+            return HttpResponseForbidden("У вас не доступа для снятия продукта с публикации.")
+
+        product.published = False
+        product.save()
+
+        return redirect("catalog:product_list")

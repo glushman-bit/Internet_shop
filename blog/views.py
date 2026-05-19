@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
@@ -39,16 +40,18 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("blog:article_list")
 
 
-class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Article
     fields = ("title", "content", "image")
     template_name = "blog/article_form.html"
+    permission_required = "blog.change_article"
 
     def get_success_url(self):
         return reverse_lazy("blog:article_detail", args=[self.kwargs["pk"]])
 
 
-class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Article
     template_name = "blog/article_confirm_delete.html"
     success_url = reverse_lazy("blog:article_list")
+    permission_required = "blog.delete_article"
