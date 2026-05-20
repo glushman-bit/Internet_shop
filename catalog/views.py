@@ -23,7 +23,7 @@ from catalog.models import Product
 from catalog.services import get_category_name_by_id
 
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
+
 class ProductListView(ListView):
     """  """
     model = Product
@@ -44,6 +44,7 @@ class ProductListView(ListView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class ProductDetailView(DetailView):
     model = Product
     template_name = "catalog/product_detail.html"
