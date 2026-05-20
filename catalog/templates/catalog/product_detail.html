@@ -15,9 +15,9 @@
                 {% if product.image %}
                     <img class="rounded mx-auto d-block" src="{{ product.image | media_filter }}" width="600" alt="def">
                 {% endif %}
-                <p>{{ product.description }}</p>
-                <p>{{ product.category }}</p>
-                <p><strong>{{ product.price }} ₽</strong></p>
+                <p>Описание: {{ product.description }}</p>
+                <p>Категория: {{ product.category }}</p>
+                <p><strong> Стоимость: {{ product.price }} ₽</strong></p>
                 <p class="mt-3">Количество просмотров: {{ product.views_count }}</p>
                 <p class="mt-3">Владелец: {{ product.owner }}</p>
                 <div class="btn-group">

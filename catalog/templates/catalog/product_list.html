@@ -5,6 +5,12 @@
 
 {% include 'catalog/includes/home_header.html' %}
 
+<select class="form-select w-25 mb-lg-3" onchange="location = this.value">
+    <option selected disabled>Выберите категорию товара</option>
+    {% for category in categories %}
+        <option value="{% url 'catalog:category_products' category.pk %}">{{ category.name }}</option>
+    {% endfor %}
+</select>
 <div class="container">
     <div class="row">
         {% for product in object_list %}
