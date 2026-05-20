@@ -1,6 +1,7 @@
 from django.urls import path
 
 from catalog.apps import CatalogConfig
+from catalog.views import CategoryProductsListView
 from catalog.views import ContactListView
 from catalog.views import ProductCreateView
 from catalog.views import ProductDeleteView
@@ -19,4 +20,5 @@ urlpatterns = [
     path("<int:pk>/delete/", ProductDeleteView.as_view(), name="product_delete"),
     path("contacts/", ContactListView.as_view(), name="contacts"),
     path("<int:pk>/unpublish/", ProductUnpublishView.as_view(), name="product_unpublish"),
+    path('category/<int:pk>/', CategoryProductsListView.as_view(), name='category_products'),
 ]
