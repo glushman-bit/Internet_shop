@@ -8,7 +8,7 @@
 <select class="form-select w-25 mb-lg-3" onchange="location = this.value">
     <option selected disabled>Выберите категорию товара</option>
     {% for category in categories %}
-        <option value="{% url 'catalog:category_products' category.pk %}">{{ category.name }}</option>
+        <option value="{% url 'catalog:category_products' category.slug %}">{{ category.name }}</option>
     {% endfor %}
 </select>
 <div class="container">
