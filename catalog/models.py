@@ -1,4 +1,5 @@
 from django.db import models
+from pytils.translit import slugify
 
 from config import settings
 
@@ -60,6 +61,13 @@ class Category(models.Model):
     description = models.TextField(
         verbose_name="Описание категории", help_text="Введите описание категории", blank=True, null=True
     )
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL-слаг")
+
+    def save(self, *args, **kwargs):
+        """Генерация slug из имени категории"""
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -67,6 +75,10 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+
+    def get_absolute_url(self):
+        """Метод генерации ссылок на категорию"""
+        return reverse("category_product", kwargs={"category_slug": self.slug})
 
 
 class Contact(models.Model):
