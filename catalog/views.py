@@ -20,12 +20,12 @@ from catalog.forms import ProductForm
 from catalog.models import Category
 from catalog.models import Contact
 from catalog.models import Product
-from catalog.services import get_category_name_by_id
+
+from .services import get_products_by_category_slug
 
 
-
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class ProductListView(ListView):
-    """  """
     model = Product
     template_name = "catalog/product_list.html"
     context_object_name = "page_object"
@@ -33,14 +33,12 @@ class ProductListView(ListView):
     ordering = ["-id"]
 
     def get_queryset(self):
-        """  """
         return Product.objects.order_by("-published")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context["categories"] = Category.objects.all()
 
-        print(context['categories'])
         return context
 
 
@@ -113,27 +111,22 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return is_owner or is_moderator
 
 
-from django.views.generic import ListView
-
-from .services import get_active_products_by_category
-
-
 class CategoryProductsListView(ListView):
-    template_name = 'catalog/product_category_list.html'
-    context_object_name = 'products'
+    template_name = "catalog/product_category_list.html"
+    context_object_name = "products"
     paginate_by = 6
 
     def get_queryset(self):
-        category_id = self.kwargs.get('pk')
-
-        return get_active_products_by_category(category_id)
+        # Захватываем slug из URL-адреса
+        category_slug = self.kwargs.get("category_slug")
+        self.category, products = get_products_by_category_slug(category_slug)
+        return products
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
-
-        category_id = self.kwargs.get('pk')
-        context['categories'] = get_category_name_by_id(category_id)
+        context["category"] = self.category
+        # Добавляем все категории для вывода в боковое меню
+        context["all_categories"] = Category.objects.all()
         return context
 
 
