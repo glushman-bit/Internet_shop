@@ -28,7 +28,10 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "slug",
+        "description",
     )
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Contact)
