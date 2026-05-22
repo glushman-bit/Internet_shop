@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 
+from django.conf.global_settings import FIXTURE_DIRS
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -45,6 +46,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "catalog",
     "blog",
+    "users",
+    "phonenumber_field",
+    "django_countries",
+
 ]
 
 MIDDLEWARE = [
@@ -62,7 +67,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "base_templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -110,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+FIXTURE_DIRS = [BASE_DIR / "fixtures"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
@@ -123,6 +129,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+PHONENUMBER_DEFAULT_REGION = 'RU'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
@@ -132,3 +139,30 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+AUTH_USER_MODEL = "users.User"
+
+LOGIN_REDIRECT_URL = "catalog:product_list"
+LOGOUT_REDIRECT_URL = "catalog:product_list"
+
+LOGIN_URL = "users:login"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", False) == "True"
+EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", False) == "True"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv("CACHE_LOCATION"),
+        }
+    }

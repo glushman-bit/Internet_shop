@@ -1,4 +1,4 @@
-{% extends 'catalog/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 <div class="container mt-5">
@@ -16,41 +16,7 @@
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-
-                    <div class="mb-3">
-                        <label for="name">Название</label>
-                        <input type="text" name="name" value="{% if object %}{{ object.name }}{% endif %}" class="form-control" id="name" placeholder="Введите название продукта" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description">Описание</label>
-                        <textarea type="text" name="description" class="form-control" id="description" placeholder="Введение описание продукта" required>{% if object %}{{ object.description }}{% endif %}</textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image">Фотография</label>
-                        <input type="file" name="image" class="form-control" id="image" placeholder="Загрузите фото продукта">
-                        {% if object and object.image %}
-                            <div class="mt-2">
-                                <p>Текущая картинка:</p>
-                                <img src="{{ object.image.url }}" style="max-height: 200px;">
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="mb-3">
-                        <label for="category">Категория</label>
-                        <select class="form-select" name="category" id="category" required="">
-                            {% for cat in category_list %}
-                                {% if object and object.category.pk == cat.pk %}
-                                <option value="{{ cat.pk }}" selected>{{ cat.name }}</option>
-                                {% else %}
-                                <option value="{{ cat.pk }}">{{ cat.name }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="price">Цена: {{ object.price }}</label>
-                        <input type="number" name="price" class="form-control" id="price" placeholder="Введите цену продукта" value="{% if object %}{{ object.price }}{% endif %}">
-                    </div>
+                    {{ form.as_p }}
                     <button type="submit" class="btn btn-sm btn-outline-primary">
                         {% if object %}
                         Сохранить
@@ -58,7 +24,6 @@
                         Создать
                         {% endif %}
                     </button>
-
                 </form>
             </div>
         </div>

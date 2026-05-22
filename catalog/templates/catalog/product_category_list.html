@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+
+{% block content %}
+
+{% include 'catalog/includes/home_header.html' %}
+
+<select class="form-select w-25 mb-lg-3" onchange="location = this.value">
+    <option selected disabled>Выберите категорию товара</option>
+    {% for category in all_categories %}
+        <option value="{% url 'catalog:category_products' category.slug %}">{{ category.name }}</option>
+    {% endfor %}
+</select>
+<div class="container">
+    <div class="row">
+        {% for product in object_list %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5>{{ product.name }}</h5>
+                        <img src="{{ product.image | media_filter }}" width="200px" alt="def">
+                        <p>{{ product.description|truncatechars:100 }}</p>
+                        <p class="mt-3">Количество просмотров: {{ product.views_count }}</p>
+                        {% if product.published %}
+                            <p class="mt-3" style="color: darkgreen"><strong>Опубликовано</strong></p>
+                        {% else %}
+                        <p class="mt-3" style="color: darkred"><strong>Не опубликовано</strong></p>
+                        {% endif %}
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-primary rounded-2" href="{% url 'catalog:product_detail' product.pk %}" role="button">Подробнее</a>
+                            {% if user == product.owner or user.is_superuser %}
+                            <a class="btn btn-sm btn-outline-secondary rounded-2" href="{% url 'catalog:product_create' product.pk %}" role="button">Редактировать</a>
+                            {% endif %}
+                            {% if user == product.owner or perms.catalog.delete_product or user.is_superuser %}
+                            <a class="btn btn-sm btn-outline-danger rounded-2" href="{% url 'catalog:product_delete' product.pk %}" role="button">Удалить</a>
+                            {% endif %}
+                            {% if user.is_superuser or perms.catalog.can_unpublish_product %}
+                            <form method="post" action="{% url 'catalog:product_unpublish' product.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    Снять с публикации
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include 'catalog/includes/inc_page.html' %}
+{% endblock %}
